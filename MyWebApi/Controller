@@ -1,0 +1,56 @@
+[Route("api/[controller]")]
+[ApiController]
+public class MyofficeACPDController : ControllerBase
+{
+    private readonly MyDbContext _context;
+
+    public MyofficeACPDController(MyDbContext context)
+    {
+        _context = context;
+    }
+
+    // CREATE
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] MyofficeACPD myofficeACPD)
+    {
+        if (myofficeACPD == null) return BadRequest();
+
+        myofficeACPD.ID = Guid.NewGuid();
+        await _context.MyofficeACPDs.AddAsync(myofficeACPD);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(Read), new { id = myofficeACPD.ID }, myofficeACPD);
+    }
+
+    // READ
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MyofficeACPD>> Read(Guid id)
+    {
+        var myofficeACPD = await _context.MyofficeACPDs.FindAsync(id);
+        if (myofficeACPD == null) return NotFound();
+        return myofficeACPD;
+    }
+
+    // UPDATE
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] MyofficeACPD myofficeACPD)
+    {
+        if (id != myofficeACPD.ID) return BadRequest();
+
+        _context.Entry(myofficeACPD).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    // DELETE
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var myofficeACPD = await _context.MyofficeACPDs.FindAsync(id);
+        if (myofficeACPD == null) return NotFound();
+
+        _context.MyofficeACPDs.Remove(myofficeACPD);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+}

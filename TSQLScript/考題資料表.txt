@@ -1,0 +1,10 @@
+資料表欄位的定義
+Myoffice_ACPD
+「c20 acpd_sid 使用者主鍵」
+c20 = char(20)
+acpd_sid = 欄位名稱
+使用者主鍵 = 這欄位是在做什麼的
+「nv120 acpd_memo 備份」
+nv120 = nvarchar(120)
+acpd_memo = 欄位名稱
+備份 = 這欄位是在做什麼的      --  紀錄額外訊息使用

@@ -1,0 +1,16 @@
+public async Task<Guid> CreateWithLog(MyofficeACPD myofficeACPD, Guid logGroupID)
+{
+    var newID = Guid.NewGuid();
+
+    var sql = "EXEC usp_Create @Name, @Description, @LogGroupID OUTPUT";
+    var parameters = new[]
+    {
+        new SqlParameter("@Name", myofficeACPD.Name),
+        new SqlParameter("@Description", myofficeACPD.Description),
+        new SqlParameter("@LogGroupID", logGroupID) { Direction = ParameterDirection.Output }
+    };
+
+    await _context.Database.ExecuteSqlRawAsync(sql, parameters);
+
+    return newID; // 返回新创建的 ID
+}
